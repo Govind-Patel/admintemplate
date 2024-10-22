@@ -1,0 +1,118 @@
+Yajra  DataTables as a Service Implementation
+
+1. create a project laravel
+    composer create-project laravel/laravel projectname
+2. Install Yajra Datatables
+    composer require yajra/laravel-datatables
+3.after that you need to set providers and alias config/app.php
+    'providers' => {
+        Yajra\DataTables\DataTablesServiceProvider::class,
+    }
+
+   'aliases' => {
+         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+    }
+4.After package installation,
+    php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvider"
+5.create a controller EmployeeController
+    php artisan make:controller EmployeeController
+6.create a model Employee
+    php artisan make:model Employee -m
+7. Employee Table column name define
+8. Employee model fillable property define
+9. php artisan migrate
+10.factory create Table create
+    php artisan make:factory EmployeeFactory --model=Employee
+11.after EmployeeFactory colum name return
+     return [
+            'name' => $this->faker->name,
+            'email' => $this->faker->email,
+            'salary' => $this->faker->numberBetween(30000,50000),
+            'department' => $this->faker->randomElement(array('Accounting','Marketing','sales','Quality'))
+
+        ];
+12. Create Dummy Data
+    php artisan tinker
+13.After opening tinker run the following command for creating dummy records
+    Employee::factory()->count(100)->create()
+14.Let's start by creating our Employee
+    php artisan datatables:make Employee
+    after command getColumns name define
+
+15. EmployeeController , we will addthe index method and injector EmployeeDataTable class. Afterwards, we will render our view using our service.
+       a. App\DataTables\EmployeeDataTable
+       b index method define
+       public function index(EmployeeDataTable $dataTable)
+    {
+        return $dataTable->render('employee');
+
+    }
+16.route define get method
+    Route::get('employee',[EmployeeController::class,'index']);
+
+17.view file create after table code and cdn add (bootsrap-4=js-4,jquery,cdn.datatables.net)
+    <section class="pt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {!! $dataTable->table() !!}
+
+                </div>
+            </div>
+        </div>
+    </section>
+    {!! $dataTable->scripts() !!}
+
+
+
+Register and Login Rest API Using
+
+1. project install
+    composer create-project laravel/laravel projectname
+2. database connection in .env file
+3. laravel passport install
+    composer require laravel/passport
+    php artisan migrate
+    php artisan passsport:install
+4. model create
+    php artisan make:model Member-m
+    member table column name define
+    model fillaable property define
+5. passport configation in model
+    use Laravel\Passport\HasApiTokens;
+6. controller create
+    php artisan make
+5. Register passport routes in App/Providers/AuthServiceProvider.php
+    public function boot()
+    {
+        $this->registerPolicies();
+        Passport::routes();
+    }
+6. config/app.php
+    'api' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+        ],
+
+
+
+$2y$10$e.UY4tYTL2L3VJeOT7.V/ut6Ly3cj5nIuQSMQtMoeihqEFDWRezua
+
+chat box implement
+
+1. dashboard two part
+2 first part all user list (name & image)
+    scrol bar
+3.image click (button) form open
+    const btn = document.getElementsByClassName('chat_btn');
+        for (var i = 0 ; i < btn.length; i++) {
+            btn[i].addEventListener('click' , () => {
+           const chatbox = document.getElementById('chat_box');
+           if (chatbox.style.visibility === 'hidden') {
+            chatbox.style.visibility = 'visible';
+            }
+        }) ;
+4. click ivent using ajax data get
+    route define in web.php
+5. controller fatch data in data base
+6. show form data
